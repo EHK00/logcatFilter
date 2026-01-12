@@ -78,15 +78,15 @@ jobs:
           body: |
             ## LogcatFilter v${{ steps.version.outputs.version }}
             
-            macOS용 Android Logcat 뷰어 & 필터 도구
+            Android Logcat Viewer & Filter Tool for macOS
             
-            ### 설치 방법
-            1. 아래 DMG 파일 다운로드
-            2. DMG 열기 → 애플리케이션 폴더로 드래그
+            ### Installation
+            1. Download the DMG file below
+            2. Open DMG → Drag to Applications folder
             
-            ### 요구사항
+            ### Requirements
             - macOS
-            - JDK 17 이상
+            - JDK 17 or higher
             - ADB (Android SDK Platform Tools)
           files: ${{ steps.find_dmg.outputs.path }}
           draft: false
