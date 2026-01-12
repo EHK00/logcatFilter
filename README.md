@@ -1,11 +1,13 @@
 # LogcatFilter
 
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/Kotlin-1.9.21-blue.svg" alt="Kotlin">
   <img src="https://img.shields.io/badge/Compose%20Desktop-1.5.11-green.svg" alt="Compose Desktop">
   <img src="https://img.shields.io/badge/Platform-macOS-lightgrey.svg" alt="Platform">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
 </p>
+
+![LogcatFilter Screenshot](images/screenshot.png)
 
 Real-time Android ADB Logcat Viewer & Filter Tool
 
@@ -99,32 +101,27 @@ package:foo package:bar      # OR operation (foo or bar)
 # (Download from Releases page)
 ```
 
+### ⚠️ macOS Security Notice
+
+On first launch, macOS may block the app because it is not signed with an Apple Developer certificate.
+
+**Option 1: Remove quarantine attribute**
+```bash
+xattr -cr LogcatFilter.app
+```
+
+**Option 2: Build and run from source**
+```bash
+git clone https://github.com/EHK00/logcatFilter.git
+cd logcatFilter
+./gradlew run
+```
+
 ### Build
 ```bash
-# Run tests
-./gradlew test
 
 # Create macOS package (.dmg)
 ./gradlew packageDmg
-```
-
-## 📸 Screenshot
-
-```
-┌──────────────────────────────────────────────────────────────────┐
-│ [Device: ▼ Pixel 6 Pro]  [▶ Start] [⏹ Stop] [🗑 Clear] [📥][📤]   │
-├──────────────────────────────────────────────────────────────────┤
-│ 🔍 [package:com.example tag:Main level:warn____________] [x]     │
-├──────────────────────────────────────────────────────────────────┤
-│ Time          │ Package / PID    │ TID  │ Lvl │ Tag     │ Message│
-├───────────────┼──────────────────┼──────┼─────┼─────────┼────────┤
-│ 01-12 14:23:45│ com.example.app  │ 1234 │  D  │ Main    │ start  │
-│ 01-12 14:23:46│ com.example.app  │ 1235 │  I  │ Life    │ resume │
-│ 01-12 14:23:47│ com.google.gms   │ 5678 │  W  │ GMS     │ warn   │
-│                                                          [↓] FAB │
-├──────────────────────────────────────────────────────────────────┤
-│ Total: 1,234  │  Filtered: 456  │  ● Capturing                   │
-└──────────────────────────────────────────────────────────────────┘
 ```
 
 ## 🔧 Tech Stack
@@ -134,45 +131,7 @@ package:foo package:bar      # OR operation (foo or bar)
 - **Build Tool**: Gradle (Kotlin DSL)
 - **Test Framework**: JUnit5 + kotlinx-coroutines-test
 
-## 📁 Project Structure
 
-```
-logcatFilter/
-├── src/
-│   ├── main/kotlin/
-│   │   ├── Main.kt
-│   │   ├── ui/
-│   │   │   ├── MainWindow.kt
-│   │   │   ├── viewmodel/MainViewModel.kt
-│   │   │   ├── components/
-│   │   │   │   ├── ToolBar.kt
-│   │   │   │   ├── FilterPanel.kt
-│   │   │   │   ├── LogTable.kt
-│   │   │   │   ├── SearchBar.kt
-│   │   │   │   └── StatusBar.kt
-│   │   │   └── theme/Theme.kt
-│   │   ├── domain/model/
-│   │   │   ├── LogEntry.kt
-│   │   │   ├── LogLevel.kt
-│   │   │   ├── FilterQuery.kt
-│   │   │   └── ColumnConfig.kt
-│   │   └── data/
-│   │       ├── adb/AdbService.kt
-│   │       ├── parser/LogParser.kt
-│   │       ├── repository/LogRepository.kt
-│   │       └── file/LogFileManager.kt
-│   └── test/kotlin/
-├── build.gradle.kts
-└── README.md
-```
-
-## 🤝 Contributing
-
-Bug reports, feature suggestions, and PRs are all welcome!
-
-## 📜 License
-
-MIT License
 
 ## 🙏 Acknowledgments
 
