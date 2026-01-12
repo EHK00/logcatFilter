@@ -1,0 +1,95 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-latest  # macOS에서 DMG 빌드
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get version from gradle.properties
+        id: version
+        run: |
+          VERSION=$(grep "^appVersion=" gradle.properties | cut -d'=' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Detected version: $VERSION"
+      
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.version.outputs.version }} already exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.version.outputs.version }} does not exist"
+          fi
+      
+      - name: Setup JDK 17
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      
+      - name: Setup Gradle
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: gradle/actions/setup-gradle@v3
+      
+      - name: Build DMG
+        if: steps.check_tag.outputs.exists == 'false'
+        run: ./gradlew packageDmg
+      
+      - name: Find DMG file
+        if: steps.check_tag.outputs.exists == 'false'
+        id: find_dmg
+        run: |
+          DMG_PATH=$(find build/compose/binaries/main/dmg -name "*.dmg" | head -1)
+          DMG_NAME=$(basename "$DMG_PATH")
+          echo "path=$DMG_PATH" >> $GITHUB_OUTPUT
+          echo "name=$DMG_NAME" >> $GITHUB_OUTPUT
+          echo "Found DMG: $DMG_PATH"
+      
+      - name: Create tag
+        if: steps.check_tag.outputs.exists == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
+          git push origin "v${{ steps.version.outputs.version }}"
+      
+      - name: Create GitHub Release
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Release v${{ steps.version.outputs.version }}
+          body: |
+            ## LogcatFilter v${{ steps.version.outputs.version }}
+            
+            macOS용 Android Logcat 뷰어 & 필터 도구
+            
+            ### 설치 방법
+            1. 아래 DMG 파일 다운로드
+            2. DMG 열기 → 애플리케이션 폴더로 드래그
+            
+            ### 요구사항
+            - macOS
+            - JDK 17 이상
+            - ADB (Android SDK Platform Tools)
+          files: ${{ steps.find_dmg.outputs.path }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

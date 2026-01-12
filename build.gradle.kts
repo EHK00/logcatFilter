@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.logcatfilter"
-version = "1.0.0"
+version = property("appVersion") as String
 
 dependencies {
     implementation(compose.desktop.currentOs)
@@ -29,7 +29,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "LogcatFilter"
-            packageVersion = "1.0.0"
+            packageVersion = property("appVersion") as String
             description = "Android ADB Logcat Viewer & Filter"
             vendor = "LogcatFilter"
             
