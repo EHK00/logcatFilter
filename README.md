@@ -61,8 +61,6 @@ package:foo package:bar      # OR operation (foo or bar)
 | Open Search | `⌘ + F` |
 | Next Result | `⌘ + F` (when search open) |
 | Previous Result | `⌘ + Shift + F` |
-| Next Result | `Enter` (in search bar) |
-| Previous Result | `Shift + Enter` (in search bar) |
 | Close Search | `Escape` |
 
 ## 📋 Filter Syntax
