@@ -3,11 +3,13 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Kotlin-1.9.21-blue.svg" alt="Kotlin">
   <img src="https://img.shields.io/badge/Compose%20Desktop-1.5.11-green.svg" alt="Compose Desktop">
-  <img src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows-lightgrey.svg" alt="Platform">
+  <img src="https://img.shields.io/badge/Platform-macOS-lightgrey.svg" alt="Platform">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
 </p>
 
 Real-time Android ADB Logcat Viewer & Filter Tool
+
+> ⚠️ **Note**: Currently only tested and supported on **macOS**. Windows/Linux support may be added in the future.
 
 ## 📖 Introduction
 
@@ -50,16 +52,16 @@ package:foo package:bar      # OR operation (foo or bar)
 - Auto-scroll FAB toggle
 - Status bar (total logs, filtered count, capture status)
 
-## ⌨️ Keyboard Shortcuts
+## ⌨️ Keyboard Shortcuts (macOS)
 
-| Function | macOS | Windows/Linux |
-|----------|-------|---------------|
-| Open Search | `⌘ + F` | `Ctrl + F` |
-| Next Result | `⌘ + F` (when search open) | `Ctrl + F` |
-| Previous Result | `⌘ + Shift + F` | `Ctrl + Shift + F` |
-| Next Result | `Enter` (in search bar) | `Enter` |
-| Previous Result | `Shift + Enter` (in search bar) | `Shift + Enter` |
-| Close Search | `Escape` | `Escape` |
+| Function | Shortcut |
+|----------|----------|
+| Open Search | `⌘ + F` |
+| Next Result | `⌘ + F` (when search open) |
+| Previous Result | `⌘ + Shift + F` |
+| Next Result | `Enter` (in search bar) |
+| Previous Result | `Shift + Enter` (in search bar) |
+| Close Search | `Escape` |
 
 ## 📋 Filter Syntax
 
@@ -102,11 +104,8 @@ package:foo package:bar      # OR operation (foo or bar)
 # Run tests
 ./gradlew test
 
-# Create macOS package
+# Create macOS package (.dmg)
 ./gradlew packageDmg
-
-# Create Windows package
-./gradlew packageMsi
 ```
 
 ## 📸 Screenshot
